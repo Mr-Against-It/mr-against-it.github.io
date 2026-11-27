@@ -1,0 +1,307 @@
+<!DOCTYPE html><html lang="en" class="dark"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0"><title>Mr Against It — Engineering, 3D Artist &amp; Physical Computing Workstations</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com"><link rel="preconnect" href="https://fonts.gstatic.com" crossorigin><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=JetBrains+Mono:wght@400;500;600;700&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+<script>tailwind.config={darkMode:'class',theme:{extend:{spacing:{'84':'21rem','88':'22rem',},fontFamily:{sans:['Inter','sans-serif'],mono:['JetBrains Mono','monospace'],},colors:{cad:{950:'#0b0e14',900:'#11161f',800:'#1a212e',700:'#263042',600:'#36445d',accent:'#0ea5e9',emerald:'#10b981',amber:'#f59e0b'}}}}}</script>
+<style>:root{--app-height:100dvh}html,body,#app-body{overflow:hidden !important;width:100% !important;max-width:100vw !important;height:100vh !important;height:100dvh !important;height:var(--app-height,100dvh) !important;max-height:var(--app-height,100dvh) !important;margin:0;padding:0;background-color:#0b0e14;color:#e2e8f0;user-select:none}::-webkit-scrollbar{width:5px;height:5px}::-webkit-scrollbar-track{background:#11161f}::-webkit-scrollbar-thumb{background:#263042;border-radius:3px}::-webkit-scrollbar-thumb:hover{background:#36445d}.card-active{border-color:#0ea5e9 !important;background:linear-gradient(135deg,rgba(14,165,233,0.14) 0%,rgba(17,22,31,0.95) 100%) !important;box-shadow:0 0 20px -3px rgba(14,165,233,0.25)}#tools-drawer{transition:transform 0.25s cubic-bezier(0.16,1,0.3,1),opacity 0.25s ease}#drawer-backdrop{transition:opacity 0.25s ease}#about-modal-box{transition:transform 0.2s cubic-bezier(0.16,1,0.3,1),opacity 0.2s ease}</style></head><body id="app-body" class="h-screen w-screen flex flex-col font-sans antialiased overflow-hidden">
+
+
+<header class="h-12 bg-cad-900 border-b border-cad-700 px-2 sm:px-4 flex items-center justify-between gap-1.5 sm:gap-2 shrink-0 z-30 w-full max-w-full overflow-x-clip select-none">
+
+
+<div class="flex items-center space-x-1.5 sm:space-x-3 min-w-0 flex-1 overflow-hidden">
+
+<button id="btn-toggle-drawer" onclick="toggleToolsDrawer()" class="px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-xl bg-cad-800 hover:bg-cad-700 active:bg-sky-500 active:text-slate-950 border border-cad-600 text-sky-400 hover:text-white font-mono text-xs font-semibold flex items-center space-x-1.5 sm:space-x-2 transition shadow-sm group shrink-0" title="Open Optimizer Catalog (M)"><i class="fa-solid fa-bars text-sm group-hover:rotate-90 transition-transform duration-200"></i><span class="font-bold tracking-wide">Tools</span><span class="text-[10px] font-mono px-1.5 py-0.2 rounded bg-sky-500/15 text-sky-300 border border-sky-500/30">4</span></button>
+
+
+<button id="btn-suite-home" onclick="showLandingPage()" class="px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-xl bg-sky-500/15 hover:bg-sky-500/25 border border-sky-500/40 text-sky-300 hover:text-white font-mono text-xs font-semibold flex items-center space-x-1.5 transition shadow-sm shrink-0" title="Return to Suite Home & Privacy Hub (H / 0)"><i class="fa-solid fa-house-laptop text-xs"></i><span class="hidden sm:inline">Suite Home</span></button>
+
+<span class="hidden sm:inline text-cad-700 shrink-0">|</span>
+
+
+<div id="active-tool-banner" class="flex items-center space-x-1.5 sm:space-x-2 min-w-0 flex-1 truncate"><div id="header-tool-icon" class="w-7 h-7 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0"><i id="header-icon-i" class="fa-solid fa-shield-halved text-xs"></i></div><div class="min-w-0 flex-1 truncate flex items-center space-x-2"><span id="header-tool-name" class="font-bold text-xs sm:text-sm text-white tracking-tight truncate">Mr Against It — Workstation Hub</span><span id="header-tool-status" class="hidden sm:inline-flex items-center space-x-1 text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-semibold shrink-0"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span><span>ZERO-CLOUD / PRIVATE</span></span><span id="header-tool-category" class="hidden md:inline text-[11px] font-mono text-slate-400 truncate">/ 100% Client-Side Engineering &amp; 3D Artist Toolset</span></div></div></div>
+
+
+<div class="flex items-center space-x-1 sm:space-x-2 shrink-0">
+
+<button id="suite-version-pill" onclick="checkSuiteUpdateChannel(true)" class="hidden md:flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/30 text-emerald-300 text-[11px] font-mono font-semibold transition" title="Click to check Mr Against It update channel"><i class="fa-solid fa-code-branch text-[10px]"></i><span id="suite-version-text">v0.806 beta &bull; BETA CHANNEL</span></button>
+
+
+<button id="btn-about-tool" onclick="openAboutModal()" class="px-2 sm:px-2.5 py-1 sm:py-1.5 rounded-xl bg-cad-800 hover:bg-cad-700 border border-cad-600 text-slate-200 hover:text-white text-xs font-mono font-medium flex items-center space-x-1.5 transition" title="View Tool Specs & Kernel Details (I)"><i class="fa-solid fa-circle-info text-sky-400"></i><span class="hidden sm:inline">About</span></button>
+
+
+<button onclick="reloadActiveApp()" class="px-2 sm:px-2 py-1 sm:py-1.5 rounded-xl bg-cad-800 hover:bg-cad-700 border border-cad-700 text-slate-300 hover:text-white text-xs font-mono transition" title="Reload Active Workspace"><i class="fa-solid fa-rotate-right text-xs"></i></button>
+
+
+<button onclick="launchInNewTab()" class="px-2 sm:px-3 py-1 sm:py-1.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-slate-950 font-bold text-xs font-mono shadow-md flex items-center space-x-1 sm:space-x-1.5 transition" title="Open Tool in Full Independent Tab"><span class="hidden sm:inline">Full Tab</span><i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></button></div></header>
+
+
+<main class="flex-1 min-h-0 w-full relative overflow-hidden bg-cad-950">
+
+<section id="landing-viewport" class="w-full h-full overflow-y-auto bg-cad-950 text-slate-200 select-text"><div class="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 py-6 sm:py-8 space-y-8">
+
+
+<div class="rounded-2xl border border-cad-700 bg-gradient-to-br from-cad-900 via-cad-900 to-cad-950 p-5 sm:p-7 shadow-2xl relative overflow-hidden"><div class="absolute -right-24 -top-24 w-72 h-72 rounded-full bg-sky-500/10 blur-3xl pointer-events-none"></div><div class="absolute -left-24 -bottom-24 w-72 h-72 rounded-full bg-emerald-500/10 blur-3xl pointer-events-none"></div>
+
+<div class="relative z-10 space-y-4"><div class="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/30 text-emerald-300 font-mono text-[10px] sm:text-[11px] font-semibold"><span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span><span>100% CLIENT-SIDE WEBASSEMBLY &amp; WEBGL EXECUTION &bull; ZERO SERVER UPLOADS &bull; ZERO COOKIES</span></div>
+
+<h1 class="text-2xl sm:text-3xl font-bold text-white tracking-tight leading-tight">
+Mr Against It &mdash; Autonomous Client-Side Engineering, 3D Artist &amp; Physical Computing Workstations
+</h1>
+
+<p class="text-sm sm:text-base text-slate-300 leading-relaxed max-w-4xl">
+Every application in <strong class="text-white">Mr Against It</strong> executes completely inside your local browser using client-side WebAssembly (<span class="font-mono text-sky-400">OpenCASCADE</span>), hardware-accelerated WebGL (<span class="font-mono text-sky-400">Three.js</span>), and deterministic geometric solvers. In addition to CAD &amp; manufacturing workflows, <strong class="text-sky-300">Mr Against It is also a complete Toolset for 3D Artists</strong> &mdash; supporting game, VFX, AR/VR, and digital-sculpting pipelines with <span class="font-mono text-slate-200">.FBX, .GLB/.GLTF, .USDZ, .OBJ, .DAE, .3DS &amp; .PLY</span> exchange, isotropic &amp; curvature-adaptive surface remeshing/retopology, QEM/Loop polygon LOD decimation &amp; subdivision with hard-edge crease preservation, automated mesh healing (open holes, non-manifold edges, flipped normals), and point-cloud-to-mesh surface reconstruction. Your CAD assemblies, 3D artist assets, meshes, DXF laser profiles, nesting cut-lists, solar models, and parametric 3D standard fasteners <strong class="text-emerald-300">never leave your computer</strong> &mdash; zero files, calculations, or telemetry are ever transmitted to any server.
+</p>
+
+<div class="flex flex-wrap items-center gap-3 pt-1"><button onclick="openToolsDrawer()" class="px-4 py-2.5 rounded-xl bg-gradient-to-r from-sky-500 to-blue-600 hover:from-sky-400 hover:to-blue-500 text-slate-950 font-bold text-xs font-mono shadow-lg shadow-sky-500/20 flex items-center space-x-2 transition"><i class="fa-solid fa-bars"></i><span>Open Tools Catalog (M)</span></button><button onclick="document.getElementById('suite-privacy-legal').scrollIntoView({ behavior: 'smooth' })" class="px-4 py-2.5 rounded-xl bg-cad-800 hover:bg-cad-700 border border-cad-600 text-slate-200 hover:text-white font-mono text-xs font-semibold flex items-center space-x-2 transition"><i class="fa-solid fa-shield-halved text-emerald-400"></i><span>Privacy, Cookie &amp; Legal Statements</span></button></div></div></div>
+
+
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-3 sm:gap-4"><div class="rounded-xl bg-cad-900 border border-cad-700 p-4 space-y-2"><div class="flex items-center justify-between"><div class="w-8 h-8 rounded-lg bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-sky-400"><i class="fa-solid fa-microchip text-sm"></i></div><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-sky-500/10 text-sky-300 border border-sky-500/20">0 Bytes Sent</span></div><h3 class="text-sm font-bold text-white">100% In-Browser Processing</h3><p class="text-xs text-slate-400 leading-relaxed">
+All CAD B-Rep tessellation, mesh repair, remeshing, 2D sheet nesting, solar yield simulation, and 3D standard fastener synthesis with N&middot;m material torque lookup execute locally in your device RAM and GPU.
+</p></div>
+
+<div class="rounded-xl bg-cad-900 border border-cad-700 p-4 space-y-2"><div class="flex items-center justify-between"><div class="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400"><i class="fa-solid fa-cookie-bite text-sm"></i></div><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-emerald-500/10 text-emerald-300 border border-emerald-500/20">0 Cookies</span></div><h3 class="text-sm font-bold text-white">Zero Cookies &amp; No Tracking</h3><p class="text-xs text-slate-400 leading-relaxed">
+This site does not set HTTP or JavaScript cookies, embeds zero analytics trackers or ad pixels, and requires no accounts or logins.
+</p></div>
+
+<div class="rounded-xl bg-cad-900 border border-cad-700 p-4 space-y-2"><div class="flex items-center justify-between"><div class="w-8 h-8 rounded-lg bg-amber-500/15 border border-amber-500/30 flex items-center justify-center text-amber-400"><i class="fa-solid fa-rotate text-sm"></i></div><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-amber-500/10 text-amber-300 border border-amber-500/20">Stateless RAM</span></div><h3 class="text-sm font-bold text-white">Clean Start on Every Refresh</h3><p class="text-xs text-slate-400 leading-relaxed">
+Every page refresh or browser restart clears ephemeral working memory and launches a completely clean workspace with zero leftover session artifacts.
+</p></div>
+
+<div class="rounded-xl bg-cad-900 border border-cad-700 p-4 space-y-2"><div class="flex items-center justify-between"><div class="w-8 h-8 rounded-lg bg-purple-500/15 border border-purple-500/30 flex items-center justify-center text-purple-400"><i class="fa-solid fa-floppy-disk text-sm"></i></div><span class="text-[10px] font-mono px-2 py-0.5 rounded bg-purple-500/10 text-purple-300 border border-purple-500/20">User Sovereignty</span></div><h3 class="text-sm font-bold text-white">Manual Local Save &amp; Open</h3><p class="text-xs text-slate-400 leading-relaxed">
+Whenever you want to keep a project, manually save or export files (<span class="font-mono text-slate-300">.STEP, .DXF, .3MF, .STL, .JSON, .NC, .PDF</span>) to your drive and reopen them anytime after restarting.
+</p></div></div>
+
+
+<div class="space-y-3"><div class="flex flex-wrap items-center justify-between gap-2"><div><h2 class="text-base font-bold text-white flex items-center space-x-2"><i class="fa-solid fa-shapes text-sky-400"></i><span>Workstation Applications</span></h2><p class="text-xs text-slate-400 font-mono">Select an optimizer below or use the Tools drawer [M] / shortcuts [1] [2] [3]</p></div><button onclick="openToolsDrawer()" class="px-3 py-1.5 rounded-lg bg-cad-800 hover:bg-cad-700 border border-cad-600 text-xs font-mono text-sky-400 transition">
+Browse All in Tools Menu &rarr;
+</button></div><div id="landing-apps-grid" class="grid grid-cols-1 md:grid-cols-2 gap-3 sm:gap-4">
+
+</div></div>
+
+
+<div id="suite-privacy-legal" class="space-y-4 pt-2"><div class="flex items-center space-x-2 border-b border-cad-800 pb-2"><i class="fa-solid fa-scale-balanced text-emerald-400 text-sm"></i><h2 class="text-base font-bold text-white">Privacy Statement, Cookie Notice &amp; Terms of Use</h2></div>
+
+<div class="grid grid-cols-1 lg:grid-cols-2 gap-4 text-xs leading-relaxed"><div class="rounded-xl bg-cad-900 border border-cad-700 p-4 space-y-2"><h3 class="font-bold text-sm text-emerald-400 flex items-center space-x-2"><i class="fa-solid fa-lock"></i><span>1. Privacy Policy &amp; Zero-Data-Transmission Guarantee</span></h3><p class="text-slate-300">
+Mr Against It operates on a strict <strong>zero-server-processing</strong> model. We do not collect, upload, transmit, log, inspect, sell, or share your CAD models, geometry files, manufacturing drawings, parametric fastener selections, project parameters, or personal identity. All file parsing, tessellation, mesh repair, remeshing, nesting, 3D fastener generation, and torque calculations run strictly inside your browser's local JavaScript/WebAssembly runtime. Because your confidential engineering assets never leave your device, Mr Against It is inherently compatible with NDA-protected, proprietary, and defense/industrial workflows.
+</p></div>
+
+<div class="rounded-xl bg-cad-900 border border-cad-700 p-4 space-y-2"><h3 class="font-bold text-sm text-sky-400 flex items-center space-x-2"><i class="fa-solid fa-cookie"></i><span>2. Cookie Policy &amp; Ephemeral Session Architecture</span></h3><p class="text-slate-300">
+This website generates <strong>zero cookies</strong> (<code class="font-mono text-sky-300">document.cookie</code> is never written) and does not store user behavioral profiles or persistent tracking identifiers. On every page refresh or browser restart, Mr Against It initializes a clean, stateless session in volatile memory. To preserve work across sessions, users must explicitly download/save their project files or exports locally to their own filesystem and manually open them again when resuming work.
+</p></div>
+
+<div class="rounded-xl bg-cad-900 border border-cad-700 p-4 space-y-2"><h3 class="font-bold text-sm text-purple-400 flex items-center space-x-2"><i class="fa-solid fa-file-contract"></i><span>3. Terms of Use &amp; Intellectual Property</span></h3><p class="text-slate-300">
+You retain 100% intellectual property rights, copyright, and ownership over every input file you load and every output file (<span class="font-mono text-slate-200">.STEP, .DXF, .3MF, .STL, .GLB, .USDZ, .NC, .CSV, .JSON, .PDF</span>) generated by the tools. Third-party static runtime libraries (such as Tailwind CSS, FontAwesome, Three.js, JSZip, and OpenCASCADE WASM) may be fetched from public CDNs solely as static browser scripts/assets with no user project data sent.
+</p></div>
+
+<div class="rounded-xl bg-cad-900 border border-cad-700 p-4 space-y-2"><h3 class="font-bold text-sm text-amber-400 flex items-center space-x-2"><i class="fa-solid fa-triangle-exclamation"></i><span>4. Engineering &amp; Manufacturing Disclaimer</span></h3><p class="text-slate-300">
+All converted meshes, repaired geometries, CNC G-code toolpaths, 2D/1D nesting schedules, generated 3D standard fasteners with material-specific N&middot;m tightening torque values, and solar/structural calculations are provided <strong>"AS-IS"</strong> without warranty of any kind. Before CNC cutting, 3D printing, mechanical fastening, structural fabrication, or electrical/PV installation, all outputs must be independently inspected and signed off by a qualified engineer or machinist.
+</p></div></div>
+
+
+<div class="rounded-xl bg-cad-900/70 border border-cad-800 px-4 py-3 flex flex-col sm:flex-row sm:items-center justify-between gap-2 text-[11px] font-mono text-slate-400"><div class="flex items-center space-x-2 text-emerald-400"><i class="fa-solid fa-check-double"></i><span>GDPR / CCPA / ePrivacy Compliant by Design &mdash; Zero Personal Data Collected &bull; Zero Cookies</span></div><div class="text-slate-500">
+Powered locally by OpenCASCADE WASM &bull; Three.js WebGL &bull; JSZip &bull; Client-Side Solvers
+</div></div></div>
+
+</div></section>
+
+
+<iframe id="active-app-iframe" src="" class="absolute inset-0 w-full h-full border-0 hidden" allow="clipboard-read; clipboard-write; cross-origin-isolated"></iframe></main>
+
+
+
+
+
+<div id="drawer-backdrop" onclick="closeToolsDrawer()" class="fixed inset-0 bg-cad-950/70 backdrop-blur-sm z-40 hidden opacity-0 transition-opacity duration-200"></div>
+
+
+<aside id="tools-drawer" class="fixed top-0 bottom-0 left-0 w-80 sm:w-96 bg-cad-900/98 backdrop-blur-xl border-r border-cad-700 z-50 flex flex-col shadow-2xl transform -translate-x-full transition-transform duration-250 ease-out overflow-hidden">
+
+
+<div class="h-14 bg-cad-950 border-b border-cad-800 px-4 flex items-center justify-between shrink-0"><div class="flex items-center space-x-2.5"><div class="w-8 h-8 rounded-xl bg-gradient-to-br from-sky-400 to-blue-600 flex items-center justify-center text-slate-950 font-bold shadow-md shadow-sky-500/20"><i class="fa-solid fa-shapes text-sm"></i></div><div><h2 class="font-bold text-sm text-white tracking-tight flex items-center space-x-1.5"><span>Mr Against It</span><span class="text-[10px] font-mono text-sky-400">/ Optimizers</span></h2><p class="text-[10px] text-slate-400 font-mono">4 Physical Computing Systems</p></div></div><button onclick="closeToolsDrawer()" class="w-8 h-8 rounded-lg bg-cad-800 hover:bg-cad-700 text-slate-400 hover:text-white flex items-center justify-center transition" title="Close Menu (Esc)"><i class="fa-solid fa-xmark text-sm"></i></button></div>
+
+
+<div class="p-3 border-b border-cad-800 bg-cad-950/40 space-y-2.5 shrink-0">
+
+<div class="relative"><i class="fa-solid fa-magnifying-glass absolute left-3 top-1/2 -translate-y-1/2 text-slate-500 text-xs"></i><input id="drawer-search-input" type="text" placeholder="Search optimizers, formats..." oninput="handleDrawerSearch(this.value)" class="w-full bg-cad-950 border border-cad-700 rounded-xl pl-9 pr-3 py-1.5 text-xs font-mono text-slate-200 placeholder-slate-500 focus:outline-none focus:border-sky-500 transition" /></div>
+
+
+<div class="flex flex-wrap gap-1"><button onclick="setCategoryFilter('all')" id="filter-all" class="px-2 py-0.5 rounded-lg bg-sky-500 text-slate-950 font-bold text-[11px] font-mono transition">All (4)</button><button onclick="setCategoryFilter('live')" id="filter-live" class="px-2 py-0.5 rounded-lg text-emerald-400 hover:text-white text-[11px] font-mono transition flex items-center space-x-1"><span class="w-1.5 h-1.5 rounded-full bg-emerald-400"></span><span id="filter-live-label">Live (1)</span></button><button onclick="setCategoryFilter('cad')" id="filter-cad" class="px-2 py-0.5 rounded-lg text-slate-400 hover:text-white text-[11px] font-mono transition">CAD</button><button onclick="setCategoryFilter('cnc')" id="filter-cnc" class="px-2 py-0.5 rounded-lg text-slate-400 hover:text-white text-[11px] font-mono transition">CNC</button><button onclick="setCategoryFilter('struct')" id="filter-struct" class="px-2 py-0.5 rounded-lg text-slate-400 hover:text-white text-[11px] font-mono transition">Structural</button><button onclick="setCategoryFilter('additive')" id="filter-additive" class="px-2 py-0.5 rounded-lg text-slate-400 hover:text-white text-[11px] font-mono transition">Additive</button></div></div>
+
+
+<div class="px-2.5 pt-2.5 pb-1 shrink-0"><button id="drawer-home-btn" onclick="showLandingPage()" class="w-full p-2.5 rounded-xl border border-cad-700 bg-cad-950/80 hover:bg-cad-800/80 hover:border-sky-500/50 transition flex items-center justify-between text-left group font-mono"><div class="flex items-center space-x-2.5 min-w-0"><div class="w-8 h-8 rounded-lg bg-emerald-500/15 border border-emerald-500/30 flex items-center justify-center text-emerald-400 shrink-0"><i class="fa-solid fa-house-laptop text-xs"></i></div><div class="min-w-0 truncate"><div class="text-xs font-bold text-white group-hover:text-sky-400 transition">Suite Home &amp; Privacy Hub</div><div class="text-[10px] text-slate-400 truncate">Client-Side Architecture, Zero Cookies &amp; Legal</div></div></div><span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-bold shrink-0">HOME</span></button></div>
+
+
+<div id="drawer-optimizer-list" class="flex-1 overflow-y-auto p-2.5 space-y-1.5 font-mono">
+
+</div>
+
+
+<div class="p-3 border-t border-cad-800 bg-cad-950/70 text-[10px] font-mono text-slate-400 flex items-center justify-between shrink-0"><span class="flex items-center text-emerald-400"><i class="fa-solid fa-shield-halved mr-1"></i>100% Client-Side Private
+</span><span class="text-slate-500">Press [H] [1] [2] [3]</span></div></aside>
+
+
+
+
+<div id="about-modal" class="fixed inset-0 bg-cad-950/80 backdrop-blur-sm z-50 hidden items-center justify-center p-4">
+
+
+<div id="about-modal-box" class="bg-cad-900 border border-cad-700 rounded-2xl max-w-lg w-full shadow-2xl overflow-hidden flex flex-col max-h-[90vh] scale-95 opacity-0 transition-all duration-200" onclick="event.stopPropagation()">
+
+
+<div class="px-4 py-3.5 bg-cad-950 border-b border-cad-800 flex items-center justify-between shrink-0"><div class="flex items-center space-x-3 min-w-0"><div id="modal-icon-box" class="w-9 h-9 rounded-xl bg-sky-500/15 border border-sky-500/30 flex items-center justify-center text-sky-400 shrink-0"><i id="modal-icon" class="fa-solid fa-cubes-stacked text-base"></i></div><div class="min-w-0"><div class="flex flex-wrap items-center gap-x-2 gap-y-1"><h3 id="modal-title" class="font-bold text-sm sm:text-base text-white tracking-tight">Mr. Convert It</h3><span id="modal-status-badge" class="text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-bold shrink-0">
+ACTIVE LIVE
+</span></div><div id="modal-category" class="text-[10px] font-mono text-sky-400">CAD & Mesh Exchange</div></div></div><button onclick="closeAboutModal()" class="w-8 h-8 rounded-lg bg-cad-800 hover:bg-cad-700 text-slate-400 hover:text-white flex items-center justify-center transition shrink-0"><i class="fa-solid fa-xmark text-sm"></i></button></div>
+
+
+<div class="p-4 sm:p-5 overflow-y-auto space-y-4 font-mono text-xs">
+
+
+<p id="modal-description" class="text-xs text-slate-300 leading-relaxed font-sans bg-cad-950/60 p-3 rounded-xl border border-cad-800">
+Universal client-side CAD, BIM, mesh and point cloud converter.
+</p>
+
+
+<div class="space-y-2"><div class="text-[10px] uppercase text-slate-400 font-semibold flex items-center justify-between"><span><i class="fa-solid fa-microchip text-sky-400 mr-1.5"></i>Execution Kernel</span><span id="modal-kernel-badge" class="text-sky-400 font-bold">OpenCASCADE WASM</span></div>
+
+<div class="grid grid-cols-2 gap-2 text-center"><div class="bg-cad-950 p-2.5 rounded-xl border border-cad-800"><div class="text-[9px] text-slate-400">Processing Speed</div><div id="modal-speed" class="text-xs font-bold text-emerald-400 mt-0.5">&lt; 35ms (WASM)</div></div><div class="bg-cad-950 p-2.5 rounded-xl border border-cad-800"><div class="text-[9px] text-slate-400">Math Precision</div><div id="modal-precision" class="text-xs font-bold text-white mt-0.5">0.0001 mm / 64-bit</div></div></div>
+
+<div class="bg-cad-950 p-2.5 rounded-xl border border-cad-800 space-y-1.5 text-[11px]"><div class="flex items-center justify-between text-slate-300"><span class="text-slate-400">Version &amp; Release Channel:</span><span id="modal-version" class="text-emerald-400 font-semibold">0.806 beta</span></div><div class="flex items-center justify-between text-slate-300"><span class="text-slate-400">Execution Environment:</span><span id="modal-env" class="text-white font-semibold">100% In-Browser (Zero Cloud Uploads)</span></div><div class="flex items-center justify-between text-slate-300"><span class="text-slate-400">Supported Formats:</span><span id="modal-format-count" class="text-amber-400 font-semibold">35+ IN / 35+ OUT</span></div></div></div>
+
+
+<div class="space-y-1.5"><div class="text-[10px] uppercase text-slate-400 font-semibold flex items-center"><i class="fa-solid fa-arrow-right-arrow-left text-sky-400 mr-1.5"></i>Supported Formats & CAD Exchange
+</div><div id="modal-formats-tags" class="flex flex-wrap gap-1 font-mono">
+
+</div></div>
+
+
+<div class="space-y-1.5"><div class="text-[10px] uppercase text-slate-400 font-semibold flex items-center"><i class="fa-solid fa-check-double text-emerald-400 mr-1.5"></i>Key Capabilities
+</div><div id="modal-features-list" class="space-y-1.5 text-xs text-slate-300">
+
+</div></div>
+
+
+<div class="p-3 rounded-xl bg-[#FF424D]/10 border border-[#FF424D]/30 flex flex-wrap items-center justify-between gap-2.5"><div class="space-y-0.5 min-w-0"><div class="text-[11px] font-bold text-white flex items-center space-x-1.5"><i class="fa-brands fa-patreon text-[#FF424D]"></i><span>Support Free Client-Side Engineering</span></div><p class="text-[11px] text-slate-300 leading-snug">
+100% browser-based with zero ads, cookies, or server uploads. Help fund new CAD kernels &amp; exporters.
+</p></div><a data-patreon-link href="https://www.patreon.com/c/MrAgainstIt" target="_blank" rel="noopener noreferrer" class="px-3 py-1.5 rounded-lg bg-[#FF424D] hover:bg-[#ff5b65] text-white font-bold text-[11px] font-mono flex items-center space-x-1.5 shadow-lg shadow-[#FF424D]/20 transition shrink-0"><i class="fa-brands fa-patreon"></i><span>Donate on Patreon</span></a></div></div>
+
+
+<div class="p-3 bg-cad-950 border-t border-cad-800 flex flex-wrap items-center justify-between gap-2 shrink-0"><a id="modal-patreon-donate-btn" data-patreon-link href="https://www.patreon.com/c/MrAgainstIt" target="_blank" rel="noopener noreferrer" title="Support Mr Against It &amp; Mr. Convert It on Patreon" class="px-3.5 py-2 rounded-xl bg-[#FF424D]/15 hover:bg-[#FF424D]/25 border border-[#FF424D]/40 text-[#FF7A82] hover:text-white font-bold text-xs font-mono flex items-center space-x-1.5 transition"><i class="fa-brands fa-patreon text-[#FF424D]"></i><span>Donate on Patreon</span></a><div class="flex items-center space-x-2 ml-auto"><button id="modal-launch-newtab-btn" onclick="launchInNewTab()" class="px-3.5 py-2 rounded-xl bg-cad-800 hover:bg-cad-700 text-slate-300 hover:text-white font-mono text-xs flex items-center space-x-1.5 transition"><span>Open in Full Tab</span><i class="fa-solid fa-arrow-up-right-from-square text-[10px]"></i></button><button onclick="closeAboutModal()" class="px-6 py-2 rounded-xl bg-sky-500 hover:bg-sky-400 active:bg-sky-600 text-slate-950 font-bold text-xs font-mono shadow-lg shadow-sky-500/25 transition">
+OK
+</button></div></div></div></div>
+
+
+<div id="hub-toast" class="fixed bottom-4 right-4 z-50 px-3.5 py-2 rounded-xl bg-cad-900/95 border border-sky-500/40 text-xs font-mono text-sky-200 shadow-2xl hidden"></div>
+
+
+
+
+<script>;(function(){try{if(typeof Object.freeze==='function'&&typeof globalThis!=='undefined'){globalThis.MR_SUITE_RELEASE=Object.freeze({suite:'Mr Against It',version:'0.806 beta',channel:'beta',build:'20261127.0806',hardened:true});}if(typeof window!=='undefined'&&typeof navigator!=='undefined'&&window.document&&typeof window.document.addEventListener==='function'){if(window.__mrHardened)return;window.__mrHardened=true;window.MR_SUITE_RELEASE=globalThis.MR_SUITE_RELEASE;window.document.addEventListener('contextmenu',function(e){var t=e.target;if(t&&['INPUT','TEXTAREA','SELECT'].indexOf(t.tagName)!==-1)return;e.preventDefault();},true);window.document.addEventListener('keydown',function(e){var k=(e.key||'').toUpperCase();var ctrl=e.ctrlKey||e.metaKey;if(k==='F12'||(ctrl&&e.shiftKey&&(k==='I'||k==='J'||k==='C'))||(ctrl&&(k==='U'||k==='S'))){e.preventDefault();e.stopPropagation();}},true);var maskGlobals=function(){try{var skip={Object:1,Array:1,Function:1,String:1,Number:1,Boolean:1,Math:1,Date:1,RegExp:1,Map:1,Set:1,Promise:1,Error:1,THREE:1,JSZip:1,tailwind:1,occtimportjs:1};Object.getOwnPropertyNames(window).forEach(function(prop){if(skip[prop]||prop.indexOf('__')===0)return;try{var desc=Object.getOwnPropertyDescriptor(window,prop);if(desc&&typeof desc.value==='function'&&desc.configurable){var fn=desc.value;if(!fn.__mrMasked&&fn.prototype&&Object.keys(fn.prototype).length===0){Object.defineProperty(fn,'toString',{value:function(){return 'function () { [native code] }';},configurable:true});fn.__mrMasked=true;}}}catch(_){}});}catch(_){}};setTimeout(maskGlobals,0);window.addEventListener('load',maskGlobals);}}catch(_){}})();const INITIAL_SUITE_VERSION='0.806 beta';const INITIAL_SUITE_BUILD_ID='20261127.0806';let suiteVersion=INITIAL_SUITE_VERSION;let suiteBuildId=INITIAL_SUITE_BUILD_ID;let suiteChannel='beta';let hubToastTimer=null;function showHubToast(msg){const _0x3dbd=document.getElementById('hub-toast');if(!_0x3dbd)return;_0x3dbd.textContent=msg;_0x3dbd.classList.remove('hidden');if(hubToastTimer)clearTimeout(hubToastTimer);hubToastTimer=setTimeout(()=>{_0x3dbd.classList.add('hidden');},4200);}
+const OPTIMIZERS=[{id:'mr-convert',name:'Mr. Convert It',version:'0.806 beta',channel:'beta',tagline:'Universal CAD, BIM, Mesh, Scan & CNC Converter',category:'cad',categoryLabel:'CAD & Mesh Exchange',status:'live',deployed:true,color:'#0ea5e9',icon:'fa-solid fa-cubes-stacked',fileUrl:'./tools/mr_convert_it/index.html',kernel:'OpenCASCADE WASM + Three.js',speed:'< 35ms (Native WASM)',precision:'0.0001 mm B-Rep',env:'100% Client-Side Private',formatCount:'43 IN / 35+ OUT (6 Categories)',description:'Universal 100% client-side Toolset for 3D Artists, Game/VFX Creators, CAD Engineers & Makers — covering CAD, BIM, FEA, polygon meshes, LiDAR point clouds, and 2D/3D CNC conversion powered by OpenCASCADE WebAssembly + Three.js WebGL. Includes 32 built-in procedural sample generators, live metrology telemetry, 5-mode mesh healing & stitch tolerance repair, 5-algorithm vertex density / LOD resampling, 4-algorithm surface remeshing & retopology with two-row pass telemetry, 4-algorithm point-cloud-to-mesh surface reconstruction, capped solid cross-sectioning with even-odd hole nesting & 2D laser slice export, per-body assembly targeting, and adaptive Desktop/Mobile workspaces.',formats:['STEP','STP','IGES','IGS','BREP','FCStd','3DXML','SAT','SAB','X_T','3DM','IFC','INP','MSH','BDF','NAS','OFF','STL','OBJ','3MF','AMF','PLY','USDZ','GLB','GLTF','FBX','DAE','WRL','VRML','X3D','3DS','LAS','PCD','PTX','ASC','PTS','XYZ','DXF','NC','GCODE','SVG','PLT','HPGL','MRPROJ','PNG'],features:['1. Universal CAD, BIM, FEA, Mesh, LiDAR & CNC Exchange — 43 input extensions & 35+ symmetric export formats across 6 categories + 32 built-in procedural sample parts','2. Live Metrology & Dimensional Telemetry — Real-time ΔX × ΔY × ΔZ bounding box, surface area (cm²), signed closed volume (cm³), and body/vertex/triangle/point counts','3. Geometry Repair & Automated Mesh Healing — Live defect audit (Open Edges, Non-Manifold, Degenerate, Unwelded Verts), 5 repair pipelines (Full Auto-Heal, Spatial Hash Weld, Ear-Clip Hole Fill, BFS Normal/Winding Unification, Non-Manifold Split & Taubin λ/μ Smooth), 5 stitch tolerances (0.0001–0.05 mm), Defect Simulator & Restore','4. Mesh Quality & Vertex Density Resampling — Continuous 15%–400% density slider, -50%/+100% quick steps, hard-edge crease preservation (>25°), Auto-Calibrate, and 5 algorithms (QEM Adaptive Decimation, Loop Subdivision, Planar Midpoint, Voxel Grid Clustering, Isotropic Equal-Edge)','5. Surface Remeshing & Retopology Engine — Live mean edge length (L_avg) & equilateral quality (Q) telemetry, two-row pass progress bar, Auto-Calibrate, and 4 algorithms (Botsch-Kobbelt Isotropic, Curvature-Adaptive CAD/FEA Grading, Voxel Marching-Tetrahedra SDF, Delaunay Edge-Flip Regularizer)','6. Point Cloud to Mesh Surface Reconstruction — Cloud count & spacing telemetry, Mesh-to-Cloud surface sampler, Auto-Calibrate, and 4 reconstruction algorithms (k-NN Ball-Pivoting BPA, Screened Voxel Implicit SDF, 2.5D LiDAR Relief Delaunay, 3D Alpha-Shape Shrink-Wrap)','7. Capped Solid Cross-Section & 2D Laser Slice — Interactive X/Y/Z clipping plane (-100% to +100%), watertight ear-clipped end-caps with even-odd hole preservation & 45° CAD hatch, plus 1-click 2D .DXF, .NC/.GCODE, .SVG & .PLT/.HPGL slice export','8. Assembly Hierarchy & Per-Body Target Selection — Inspect multi-body assemblies, toggle part visibility, and scope Repair, Quality, Remeshing, Point-Cloud Reconstruction, or Restore to all bodies or a single selected body','9. 3D WebGL CAD Viewport & Adaptive Desktop/Mobile Layouts — ISO/FRONT/TOP/RIGHT/Fit [F] camera presets, CAD Edges/Wireframe/Points/Grid/Auto-Rotate toggles, Machined/Matte/X-Ray/Normals shaders, unit scale (mm/cm/m/in), Y-Up/Z-Up axis conversion, 2 Desktop & 3 Mobile layouts']},{id:'mr-nest',name:'Mr. Nest It',version:'0.202 alpha',channel:'alpha',tagline:'True-Shape 2D Sheet & 1D Profile Nesting Engine',category:'cnc',categoryLabel:'CNC & Fabrication',status:'in-dev',deployed:false,color:'#10b981',icon:'fa-solid fa-vector-square',fileUrl:'',kernel:'True-Shape NFP Raster Solver',speed:'< 15ms Grid Interlock',precision:'Multi-Pass Best-Fit',env:'100% Client-Side Private (In Development)',formatCount:'4 IN / 5 OUT',description:'Currently In Development (0.202 alpha). Industrial true-shape 2D sheet metal nesting and 1D structural beam/profile miter cut-list optimizer. Scheduled for release in an upcoming update channel milestone.',formats:['AutoCAD DXF','Vector SVG','Cut-List CSV','JSON','ISO G-Code (.NC)','Shop PDF'],features:['Multi-angle natural caliper rotation & complementary 180° interlock','Concave L-bracket, gusset & trapezoid pocket nesting','1D structural RHS/IPE beam cut-list optimizer with 45°/30° miters','Inside-first CNC G-code toolpath sequencing with rapid travel paths','Usable offcut remnant schedule & shop-floor traveler PDF submittal']},{id:'mr-solar',name:'Mr. Solar-power It',version:'0.502 alpha',channel:'alpha',tagline:'3D Photovoltaic Roof Array CAD & Yield Engine',category:'struct',categoryLabel:'Energy & Structural',status:'in-dev',deployed:false,color:'#f59e0b',icon:'fa-solid fa-solar-panel',fileUrl:'',kernel:'Sun-Path Ephemeris Raycaster',speed:'Real-time 60 FPS Sweep',precision:'64-bit Solar Vector',env:'100% Client-Side Private (In Development)',formatCount:'8 Roofs / 7 Racks',description:'Currently In Development (0.502 alpha). Full-featured 3D photovoltaic roof array CAD designer and solar yield simulator. Scheduled for release in an upcoming update channel milestone.',formats:['3D DXF CAD Plan','GLB Digital Twin','STL Mesh','String BOM CSV','Permit PDF'],features:['8 parametric roof architectures (Gable, Hip, Flat, L-Cross, Mansard...)','7 racking configurations (Portrait, Landscape, Hybrid, East-West, Diamond)','Dynamic solar ephemeris calculator with latitude & seasonal sweep','Interactive obstacle keep-out zones for chimneys, skylights & HVAC','MPPT string inverter sizing, structural dead-load & ROI financial metrics']},{id:'mr-fasten',name:'Mr. Fasten It',version:'0.100 alpha',channel:'roadmap',tagline:'3D Standard Fastener CAD Library, Parametric Part Generator & N·m Torque Lookup',category:'struct',categoryLabel:'3D Fastener Library & Standards',status:'roadmap',deployed:false,color:'#d946ef',icon:'fa-solid fa-screwdriver-wrench',fileUrl:'',kernel:'Parametric ISO/DIN 3D Fastener & Torque Kernel',speed:'< 15ms 3D Part Synthesis',precision:'ISO / DIN / ANSI Exact',env:'100% Client-Side Private (In Development)',formatCount:'ISO/DIN Lib / 3D CAD',description:'Interactive 3D standard fastener library and parametric CAD part generator (In Development). Choose a fastener directly by international standard (ISO/DIN/ANSI) or manually configure head type, drive, thread diameter, pitch, and length via dropdowns.',formats:['3D STEP / STL / 3MF','ISO / DIN / ANSI Standard Match','Head & Length Dropdowns','N·m Torque by Material'],features:['Browse by standard (ISO, DIN, ANSI/ASME) or manually configure head type, drive, thread pitch, and length via dropdowns','Automatic standard identification pointing to the exact ISO/DIN designation for the generated fastener','Dimensionally accurate 3D CAD model generation of bolts, screws, nuts, and washers for direct export','Recommended tightening torque in Newton-meters (N·m) calculated by standard for each selectable material and grade (Steel 8.8/10.9/12.9, Stainless A2/A4, Titanium, Brass, Aluminum)']}];let activeOptimizerId=null;let currentCategoryFilter='all';let drawerSearchQuery='';let isDrawerOpen=false;let isAboutModalOpen=false;const SUITE_HUB_META={id:'suite-hub',name:'Mr Against It — Workstation Hub',version:'0.806 beta',channel:'beta',tagline:'100% Client-Side Engineering, 3D Artist & Physical Computing Toolset',categoryLabel:'Client-Side Workstation Hub',status:'hub',color:'#10b981',icon:'fa-solid fa-shield-halved',fileUrl:'',kernel:'Browser WASM + WebGL (Stateless)',speed:'Zero Network Latency',precision:'64-bit Local Memory',env:'0 Cookies / 0 Server Uploads',formatCount:'4 Workstations (1 Live • 3 In Development)',description:'Mr Against It runs entirely inside your local browser with OpenCASCADE WebAssembly and Three.js WebGL — serving as both a CAD engineering workstation and a full Toolset for 3D Artists (game, VFX, AR/VR & sculpting retopology, LOD decimation, mesh healing, and .FBX/.GLB/.USDZ/.OBJ/.PLY exchange). Hosts Mr. Convert It (Live v0.806 beta) alongside Mr. Nest It, Mr. Solar-power It, and Mr. Fasten It (In Development). Zero cookies or telemetry are created, every refresh starts cleanly, and .MRPROJ snapshots save directly to your own drive.',formats:['3D ARTIST TOOLSET','ZERO COOKIES','ZERO TELEMETRY','CLIENT-SIDE WASM','WEBGL 3D','43 IN / 35+ OUT','LOCAL .MRPROJ SAVE','DESKTOP & MOBILE UI'],features:['Built for CAD engineers, makers, and 3D Artists (FBX/GLB/USDZ/OBJ/DAE/PLY exchange, retopology, LOD decimation, crease preservation & mesh repair)','Hosts Mr. Convert It (Live v0.806 beta) plus Mr. Nest It, Mr. Solar-power It, and Mr. Fasten It (In Development)','All B-Rep faceting, mesh healing, remeshing, surface reconstruction & WebGL rendering execute 100% locally in your browser','Zero tracking cookies, analytics, accounts, or server-side file uploads — every refresh begins a clean stateless session','Adaptive Desktop & Mobile layouts with full .MRPROJ snapshot save/reload control on your local filesystem']};function getToolLaunchUrl(opt){if(!opt||!opt.fileUrl)return'';const _0x18a6=opt.fileUrl.includes('?')?'&':'?';return`${opt.fileUrl}${_0x18a6}v=${encodeURIComponent(opt.version||suiteVersion)}&b=${encodeURIComponent(suiteBuildId)}`;}
+async function checkSuiteUpdateChannel(manual=false){if(typeof fetch!=='function')return null;try{const _0x35b3=await fetch(`./version.json?t=${Date.now()}`,{cache:'no-store'});if(!_0x35b3||!_0x35b3.ok)throw new Error('Manifest unavailable');const _0x9545=await _0x35b3.json();const _0xc307=_0x9545.buildId||INITIAL_SUITE_BUILD_ID;const _0x4ce7=_0x9545.currentVersion||INITIAL_SUITE_VERSION;const _0x2bcc=(_0x9545.channel||'beta').toUpperCase();const _0xbcf7=_0xc307!==INITIAL_SUITE_BUILD_ID||_0x4ce7!==INITIAL_SUITE_VERSION;suiteVersion=_0x4ce7;suiteBuildId=_0xc307;suiteChannel=_0x9545.channel||'beta';if(_0x9545.apps){OPTIMIZERS.forEach(opt=>{const _0x3870=_0x9545.apps[opt.id];if(!_0x3870)return;if(_0x3870.version)opt.version=_0x3870.version;if(_0x3870.channel)opt.channel=_0x3870.channel;if(_0x3870.status)opt.status=_0x3870.status;if(typeof _0x3870.deployed==='boolean')opt.deployed=_0x3870.deployed;opt.fileUrl=_0x3870.deployed&&_0x3870.entry?_0x3870.entry:'';});}
+const _0x7f1d=OPTIMIZERS.filter(o=>o.status==='live'&&o.deployed!==false).length;const _0xae38=document.getElementById('filter-live-label');if(_0xae38){_0xae38.textContent=`Live (${_0x7f1d})`;}
+const _0xf3bf=document.getElementById('suite-version-pill');const _0x1ede=document.getElementById('suite-version-text');if(_0x1ede){_0x1ede.textContent=_0xbcf7?`UPDATE: v${_0x4ce7} • REFRESH`:`v${_0x4ce7} • ${_0x2bcc} CHANNEL`;}
+if(_0xf3bf&&_0xbcf7){_0xf3bf.className='hidden md:flex items-center space-x-1.5 px-2.5 py-1.5 rounded-xl bg-amber-500/20 hover:bg-amber-500/30 border border-amber-500/40 text-amber-300 text-[11px] font-mono font-bold animate-pulse transition';}
+renderLandingAppGrid();renderDrawerList();if(_0xbcf7){showHubToast(`New update available via channel: v${_0x4ce7} (${_0xc307}). Launching tools uses latest bundle.`);}else if(manual){showHubToast(`Update Channel (${_0x2bcc}): v${_0x4ce7} is up to date (${_0xc307}).`);}
+return _0x9545;}catch(_){if(manual){showHubToast(`Release Channel (${suiteChannel.toUpperCase()}): v${suiteVersion} (${suiteBuildId})`);}
+return null;}}
+function toggleToolsDrawer(){if(isDrawerOpen){closeToolsDrawer();}else{openToolsDrawer();}}
+function openToolsDrawer(){isDrawerOpen=true;const _0xb6b0=document.getElementById('tools-drawer');const _0x9d63=document.getElementById('drawer-backdrop');_0x9d63.classList.remove('hidden');void _0x9d63.offsetWidth;_0x9d63.classList.remove('opacity-0');_0x9d63.classList.add('opacity-100');_0xb6b0.classList.remove('-translate-x-full');_0xb6b0.classList.add('translate-x-0');setTimeout(()=>{const _0x1b42=document.getElementById('drawer-search-input');if(_0x1b42)_0x1b42.focus();},100);}
+function closeToolsDrawer(){isDrawerOpen=false;const _0xc903=document.getElementById('tools-drawer');const _0x5bf1=document.getElementById('drawer-backdrop');_0xc903.classList.remove('translate-x-0');_0xc903.classList.add('-translate-x-full');_0x5bf1.classList.remove('opacity-100');_0x5bf1.classList.add('opacity-0');setTimeout(()=>{if(!isDrawerOpen)_0x5bf1.classList.add('hidden');},250);}
+function openAboutModal(toolId=null){const _0xfb04=toolId||activeOptimizerId;const opt=_0xfb04?(OPTIMIZERS.find(o=>o.id===_0xfb04)||SUITE_HUB_META):SUITE_HUB_META;populateAboutModal(opt);isAboutModalOpen=true;const _0x332a=document.getElementById('about-modal');const _0x213e=document.getElementById('about-modal-box');_0x332a.classList.remove('hidden');_0x332a.classList.add('flex');void _0x213e.offsetWidth;_0x213e.classList.remove('scale-95','opacity-0');_0x213e.classList.add('scale-100','opacity-100');}
+function closeAboutModal(){isAboutModalOpen=false;const _0xc404=document.getElementById('about-modal');const _0xe9ea=document.getElementById('about-modal-box');_0xe9ea.classList.remove('scale-100','opacity-100');_0xe9ea.classList.add('scale-95','opacity-0');setTimeout(()=>{if(!isAboutModalOpen){_0xc404.classList.remove('flex');_0xc404.classList.add('hidden');}},200);}
+document.getElementById('about-modal').addEventListener('click',function(e){if(e.target===this){closeAboutModal();}});function populateAboutModal(opt){document.getElementById('modal-title').textContent=opt.name;document.getElementById('modal-category').textContent=opt.categoryLabel;document.getElementById('modal-description').textContent=opt.description;document.getElementById('modal-kernel-badge').textContent=opt.kernel;document.getElementById('modal-speed').textContent=opt.speed;document.getElementById('modal-precision').textContent=opt.precision;document.getElementById('modal-env').textContent=opt.env;document.getElementById('modal-format-count').textContent=opt.formatCount;const _0xda37=document.getElementById('modal-version');if(_0xda37){_0xda37.textContent=opt.version||suiteVersion;_0xda37.className=opt.status==='live'||opt.status==='hub'?'text-emerald-400 font-semibold':'text-amber-400 font-semibold';}
+const _0xdde8=document.getElementById('modal-icon-box');const _0x0058=document.getElementById('modal-icon');_0xdde8.style.backgroundColor=`${opt.color}20`;_0xdde8.style.borderColor=`${opt.color}45`;_0xdde8.style.color=opt.color;_0x0058.className=`${opt.icon} text-base`;const _0x7a19=document.getElementById('modal-status-badge');const _0xa9a2=document.getElementById('modal-launch-newtab-btn');if(opt.status==='live'){_0x7a19.className='text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-bold shrink-0';_0x7a19.textContent=`ACTIVE LIVE • ${opt.version||suiteVersion}`;_0xa9a2.classList.remove('hidden');}else if(opt.status==='hub'){_0x7a19.className='text-[10px] font-mono px-2 py-0.5 rounded-full bg-emerald-500/15 text-emerald-400 border border-emerald-500/30 font-bold shrink-0';_0x7a19.textContent=`ZERO-CLOUD HUB • ${opt.version||suiteVersion}`;_0xa9a2.classList.add('hidden');}else if(opt.status==='in-dev'){_0x7a19.className='text-[10px] font-mono px-2 py-0.5 rounded-full bg-amber-500/15 text-amber-400 border border-amber-500/30 font-bold shrink-0';_0x7a19.textContent=`IN DEVELOPMENT • ${opt.version||'ALPHA'}`;_0xa9a2.classList.add('hidden');}else{_0x7a19.className='text-[10px] font-mono px-2 py-0.5 rounded-full bg-cad-800 text-slate-400 border border-cad-700 font-bold shrink-0';_0x7a19.textContent=`IN DEVELOPMENT • ${opt.version||'ROADMAP'}`;_0xa9a2.classList.add('hidden');}
+const _0xcac1=document.getElementById('modal-formats-tags');_0xcac1.innerHTML='';opt.formats.forEach(f=>{const s=document.createElement('span');s.className='text-[9px] px-2 py-0.5 rounded-md bg-cad-950 text-slate-300 border border-cad-800 font-mono';s.textContent=f;_0xcac1.appendChild(s);});const _0x0081=document.getElementById('modal-features-list');_0x0081.innerHTML='';opt.features.forEach(feat=>{const _0xfc36=document.createElement('div');_0xfc36.className='flex items-start space-x-2 text-[11px]';_0xfc36.innerHTML=`
+                    <i class="fa-solid fa-check text-emerald-400 mt-0.5 text-[10px] shrink-0"></i>
+                    <span class="text-slate-300">${feat}</span>
+                `;_0x0081.appendChild(_0xfc36);});}
+function showLandingPage(){activeOptimizerId=null;const _0x2926=document.getElementById('landing-viewport');const _0xa06c=document.getElementById('active-app-iframe');if(_0xa06c){_0xa06c.classList.add('hidden');_0xa06c.classList.remove('block');_0xa06c.src='about:blank';}
+if(_0x2926){_0x2926.classList.remove('hidden');_0x2926.scrollTop=0;}
+document.getElementById('header-tool-name').textContent='Mr Against It — Workstation Hub';document.getElementById('header-tool-category').textContent='/ 100% Client-Side Engineering & 3D Artist Toolset';const _0x87b3=document.getElementById('header-tool-status');if(_0x87b3){_0x87b3.innerHTML='<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span><span>ZERO-CLOUD / PRIVATE</span>';}
+const _0x0045=document.getElementById('header-tool-icon');const _0xf9aa=document.getElementById('header-icon-i');_0x0045.style.backgroundColor='#10b98120';_0x0045.style.borderColor='#10b98145';_0x0045.style.color='#10b981';_0xf9aa.className='fa-solid fa-shield-halved text-xs';const _0x0860=document.getElementById('drawer-home-btn');if(_0x0860){_0x0860.className='w-full p-2.5 rounded-xl border transition flex items-center justify-between text-left group font-mono card-active';}
+renderDrawerList();if(isDrawerOpen){closeToolsDrawer();}}
+function renderLandingAppGrid(){const _0x7d84=document.getElementById('landing-apps-grid');if(!_0x7d84)return;_0x7d84.innerHTML='';OPTIMIZERS.forEach((opt,idx)=>{const _0xf54e=opt.status==='live'&&opt.deployed!==false&&!!opt.fileUrl;const _0x878e=opt.status==='in-dev';const _0x1dfa=document.createElement('div');_0x1dfa.className=`rounded-xl bg-cad-900 border p-4 flex flex-col justify-between gap-3 transition shadow-lg group ${_0xf54e?'border-cad-700 hover:border-sky-500/60':'border-cad-800/90 hover:border-amber-500/40 opacity-90'}`;_0x1dfa.innerHTML=`
+                    <div class="space-y-2.5">
+                        <div class="flex items-start justify-between gap-2">
+                            <div class="flex items-center space-x-3 min-w-0">
+                                <div class="w-10 h-10 rounded-xl flex items-center justify-center shrink-0 border" style="background-color: ${opt.color}20; border-color: ${opt.color}45; color: ${opt.color}">
+                                    <i class="${opt.icon} text-base"></i>
+                                </div>
+                                <div class="min-w-0">
+                                    <h3 class="font-bold text-sm text-white truncate group-hover:text-sky-400 transition">${opt.name}</h3>
+                                    <div class="text-[10px] font-mono text-slate-400 truncate">${opt.categoryLabel} &bull; ${opt.formatCount}</div>
+                                </div>
+                            </div>
+                            <span class="text-[9px] font-mono px-2 py-0.5 rounded-full font-bold shrink-0 ${_0xf54e?'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30':_0x878e?'bg-amber-500/15 text-amber-400 border border-amber-500/30':'bg-cad-800 text-slate-400 border border-cad-700'
+}">
+                                ${_0xf54e?`LIVE &bull; ${opt.version}`:_0x878e?`IN DEVELOPMENT &bull; ${opt.version}`:`IN DEVELOPMENT`}
+                            </span>
+                        </div>
+                        <p class="text-xs text-slate-300 leading-relaxed">${opt.description}</p>
+                        <div class="flex flex-wrap gap-1">
+                            ${opt.formats.slice(0,6).map(f=>`<span class="text-[9px] font-mono px-1.5 py-0.5 rounded bg-cad-950 text-slate-400 border border-cad-800">${f}</span>`).join('')}
+                        </div>
+                    </div>
+                    <div class="flex items-center justify-between pt-2 border-t border-cad-800/80 font-mono text-[11px]">
+                        <button onclick="openAboutModal('${opt.id}')" class="text-slate-400 hover:text-white flex items-center space-x-1 transition">
+                            <i class="fa-solid fa-circle-info text-sky-400"></i>
+                            <span>Specs (${opt.version})</span>
+                        </button>
+                        <button onclick="selectAndLaunchTool('${opt.id}')" class="px-3 py-1.5 rounded-lg font-bold flex items-center space-x-1.5 transition ${_0xf54e?'bg-sky-500 hover:bg-sky-400 text-slate-950':'bg-cad-800 hover:bg-cad-700 text-amber-300 border border-amber-500/30'
+}">
+                            <span>${_0xf54e?`Launch App [${idx+1}]`:'In Development (Specs)'}</span>
+                            <i class="fa-solid ${_0xf54e?'fa-arrow-right':'fa-wrench'} text-[10px]"></i>
+                        </button>
+                    </div>
+                `;_0x7d84.appendChild(_0x1dfa);});}
+function selectAndLaunchTool(id){const opt=OPTIMIZERS.find(o=>o.id===id)||OPTIMIZERS[0];if(opt.status==='live'&&opt.deployed!==false&&opt.fileUrl){activeOptimizerId=opt.id;const _0x5a7d=getToolLaunchUrl(opt);const _0x740e=document.getElementById('landing-viewport');const _0x6eb7=document.getElementById('active-app-iframe');if(_0x740e)_0x740e.classList.add('hidden');if(_0x6eb7){_0x6eb7.classList.remove('hidden');_0x6eb7.classList.add('block');if(_0x6eb7.getAttribute('src')!==_0x5a7d){_0x6eb7.src=_0x5a7d;}}
+document.getElementById('header-tool-name').textContent=opt.name;document.getElementById('header-tool-category').textContent=`/ ${opt.categoryLabel}`;const _0x17d1=document.getElementById('header-tool-status');if(_0x17d1){_0x17d1.innerHTML=`<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 animate-pulse"></span><span>LIVE &bull; ${opt.version}</span>`;}
+const _0x5125=document.getElementById('header-tool-icon');const _0x7a42=document.getElementById('header-icon-i');_0x5125.style.backgroundColor=`${opt.color}20`;_0x5125.style.borderColor=`${opt.color}45`;_0x5125.style.color=opt.color;_0x7a42.className=`${opt.icon} text-xs`;const _0x7f04=document.getElementById('drawer-home-btn');if(_0x7f04){_0x7f04.className='w-full p-2.5 rounded-xl border border-cad-700 bg-cad-950/80 hover:bg-cad-800/80 hover:border-sky-500/50 transition flex items-center justify-between text-left group font-mono';}
+renderDrawerList();closeToolsDrawer();}else{closeToolsDrawer();showHubToast(`${opt.name} (${opt.version}) is currently In Development and not yet released.`);setTimeout(()=>{openAboutModal(opt.id);},150);}}
+function reloadActiveApp(){if(!activeOptimizerId){const _0x51c9=document.getElementById('landing-viewport');if(_0x51c9)_0x51c9.scrollTo({top:0,behavior:'smooth'});return;}
+const _0x432b=document.getElementById('active-app-iframe');if(_0x432b){_0x432b.src=_0x432b.src;}}
+function launchInNewTab(){if(!activeOptimizerId){openToolsDrawer();return;}
+const opt=OPTIMIZERS.find(o=>o.id===activeOptimizerId);if(opt&&opt.status==='live'&&opt.deployed!==false&&opt.fileUrl){window.open(getToolLaunchUrl(opt),'_blank');}else if(opt){openAboutModal(opt.id);}}
+function setCategoryFilter(cat){currentCategoryFilter=cat;['all','live','cad','cnc','struct','additive'].forEach(c=>{const _0x8db0=document.getElementById('filter-'+c);if(!_0x8db0)return;if(c===cat){_0x8db0.className='px-2 py-0.5 rounded-lg bg-sky-500 text-slate-950 font-bold text-[11px] font-mono transition';}else{_0x8db0.className='px-2 py-0.5 rounded-lg text-slate-400 hover:text-white text-[11px] font-mono transition';}});renderDrawerList();}
+function handleDrawerSearch(q){drawerSearchQuery=(q||'').trim().toLowerCase();renderDrawerList();}
+function getFilteredOptimizers(){return OPTIMIZERS.filter(item=>{if(currentCategoryFilter==='live'&&item.status!=='live')return false;if(['cad','cnc','struct','additive'].includes(currentCategoryFilter)&&item.category!==currentCategoryFilter)return false;if(drawerSearchQuery){const _0xd9d3=(item.name+' '+item.version+' '+item.tagline+' '+item.description+' '+item.formats.join(' ')+' '+item.kernel).toLowerCase();if(!_0xd9d3.includes(drawerSearchQuery))return false;}
+return true;});}
+function renderDrawerList(){const _0xba49=document.getElementById('drawer-optimizer-list');const _0x142e=getFilteredOptimizers();_0xba49.innerHTML='';if(_0x142e.length===0){_0xba49.innerHTML=`
+                    <div class="p-6 text-center text-slate-500 font-mono text-xs">
+                        <i class="fa-solid fa-filter-circle-xmark text-xl mb-2 text-slate-600"></i>
+                        <div>No optimizers match current filter</div>
+                    </div>
+                `;return;}
+_0x142e.forEach(opt=>{const _0xdc32=opt.id===activeOptimizerId;const _0x29e8=opt.status==='live'&&opt.deployed!==false&&!!opt.fileUrl;const _0x2d25=opt.status==='in-dev';const _0x4d2c=document.createElement('div');_0x4d2c.id=`card-${opt.id}`;_0x4d2c.onclick=()=>selectAndLaunchTool(opt.id);_0x4d2c.className=`p-2.5 rounded-xl border transition cursor-pointer flex items-center justify-between group ${_0xdc32?'card-active':'bg-cad-950/70 border-cad-800 hover:bg-cad-800/80 hover:border-cad-700'
+}`;_0x4d2c.innerHTML=`
+                    <div class="flex items-center space-x-2.5 min-w-0 pr-2">
+                        <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0 border" style="background-color: ${opt.color}18; border-color: ${opt.color}40; color: ${opt.color}">
+                            <i class="${opt.icon} text-xs"></i>
+                        </div>
+                        <div class="min-w-0 truncate">
+                            <div class="flex items-center space-x-1.5">
+                                <span class="text-xs font-bold text-white truncate group-hover:text-sky-400 transition">${opt.name}</span>
+                                ${_0x29e8?'<span class="w-1.5 h-1.5 rounded-full bg-emerald-400 shrink-0"></span>':''}
+                            </div>
+                            <div class="text-[10px] text-slate-400 truncate">${opt.tagline}</div>
+                        </div>
+                    </div>
+                    <div class="flex flex-col items-end shrink-0 space-y-1">
+                        <span class="text-[9px] font-mono px-1.5 py-0.5 rounded font-bold ${_0x29e8?'bg-emerald-500/15 text-emerald-400 border border-emerald-500/30':_0x2d25?'bg-amber-500/15 text-amber-400 border border-amber-500/30':'bg-cad-800 text-slate-400 border border-cad-700'
+}">
+                            ${_0x29e8?'LAUNCH':'IN DEV'}
+                        </span>
+                        <span class="text-[9px] text-slate-500 font-mono">${opt.version}</span>
+                    </div>
+                `;_0xba49.appendChild(_0x4d2c);});}
+window.addEventListener('keydown',(e)=>{if(document.activeElement&&['INPUT','TEXTAREA'].includes(document.activeElement.tagName)){if(e.key==='Escape'){document.activeElement.blur();closeToolsDrawer();closeAboutModal();}
+return;}
+if(e.key==='Escape'){if(isAboutModalOpen){closeAboutModal();}else if(isDrawerOpen){closeToolsDrawer();}}else if(e.key==='m'||e.key==='M'||e.key==='t'||e.key==='T'){toggleToolsDrawer();}else if(e.key==='h'||e.key==='H'||e.key==='0'){showLandingPage();}else if(e.key==='i'||e.key==='I'){openAboutModal();}else if(e.key==='1'){selectAndLaunchTool('mr-convert');}else if(e.key==='2'){selectAndLaunchTool('mr-nest');}else if(e.key==='3'){selectAndLaunchTool('mr-solar');}});let hubViewportSyncBound=false;function syncHubViewportHeight(){const _0x4740=(typeof window!=='undefined'&&window.visualViewport&&window.visualViewport.height)||(typeof window!=='undefined'&&window.innerHeight)||0;if(_0x4740>0&&typeof document!=='undefined'&&document.documentElement&&document.documentElement.style&&typeof document.documentElement.style.setProperty==='function'){document.documentElement.style.setProperty('--app-height',`${Math.round(_0x4740)}px`);}
+if(!hubViewportSyncBound&&typeof window!=='undefined'&&typeof window.addEventListener==='function'){hubViewportSyncBound=true;window.addEventListener('resize',syncHubViewportHeight);window.addEventListener('orientationchange',syncHubViewportHeight);if(window.visualViewport&&typeof window.visualViewport.addEventListener==='function'){window.visualViewport.addEventListener('resize',syncHubViewportHeight);window.visualViewport.addEventListener('scroll',syncHubViewportHeight);}}}
+window.onload=function(){syncHubViewportHeight();renderLandingAppGrid();renderDrawerList();showLandingPage();checkSuiteUpdateChannel(false);};</script>
+</body></html>

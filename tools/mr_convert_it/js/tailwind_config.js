@@ -1,0 +1,1 @@
+tailwind.config={darkMode:'class',theme:{extend:{spacing:{'84':'21rem',},fontFamily:{sans:['Inter','sans-serif'],mono:['JetBrains Mono','monospace'],},colors:{cad:{950:'#0b0e14',900:'#11161f',800:'#1a212e',700:'#263042',600:'#36445d',accent:'#0ea5e9',emerald:'#10b981',amber:'#f59e0b'}}}}}
